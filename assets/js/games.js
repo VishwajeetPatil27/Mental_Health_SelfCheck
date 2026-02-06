@@ -64,6 +64,8 @@ class MemoryGame {
             if (this.matched === this.symbols.length) {
                 setTimeout(() => {
                     alert(`🎉 You won! Score: ${this.score}, Moves: ${this.moves}`);
+                    // record game session
+                    try { if (window.userSession && typeof window.userSession.addGameSession === 'function') window.userSession.addGameSession(); } catch(e) {}
                     resetMemoryGame();
                 }, 500);
             }
@@ -166,6 +168,7 @@ class ColorGame {
                 clearInterval(timer);
                 this.gameActive = false;
                 alert(`Game Over! Score: ${this.score}`);
+                try { if (window.userSession && typeof window.userSession.addGameSession === 'function') window.userSession.addGameSession(); } catch(e) {}
                 resetColorGame();
             }
         }, 1000);
@@ -238,6 +241,7 @@ class BalloonGame {
 
     win() {
         alert('🎈 Congratulations! You filled the balloon!');
+        try { if (window.userSession && typeof window.userSession.addGameSession === 'function') window.userSession.addGameSession(); } catch(e) {}
         resetBalloonGame();
     }
 }
@@ -322,6 +326,7 @@ class PuzzleGame {
 
         if (this.playerSequence[this.playerSequence.length - 1] !== this.sequence[this.playerSequence.length - 1]) {
             alert(`Game Over! Level: ${this.level}, Score: ${this.score}`);
+            try { if (window.userSession && typeof window.userSession.addGameSession === 'function') window.userSession.addGameSession(); } catch(e) {}
             resetPuzzleGame();
             return;
         }

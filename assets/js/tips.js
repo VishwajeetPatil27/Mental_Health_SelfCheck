@@ -1,6 +1,15 @@
 // Tips Page Management with Personalized Recommendations
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Record that tips were viewed
+    try {
+        if (window.userSession && typeof window.userSession.addTipsViewed === 'function') {
+            window.userSession.addTipsViewed();
+        }
+    } catch (e) {
+        console.warn('Failed to record tips viewed:', e);
+    }
+    
     loadTips();
     loadPersonalizedTips();
     loadQuickTips();

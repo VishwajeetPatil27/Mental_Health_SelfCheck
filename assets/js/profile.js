@@ -45,7 +45,7 @@ function loadProgressStats() {
     document.getElementById('breathing-sessions').textContent = progress.breathingSessions || 0;
     document.getElementById('tips-viewed').textContent = progress.tipsViewed || 0;
     
-    const totalSessions = (progress.quizCompleted || 0) + (progress.breathingSessions || 0);
+    const totalSessions = (progress.quizCompleted || 0) + (progress.breathingSessions || 0) + (progress.gamesPlayed || 0);
     document.getElementById('total-sessions').textContent = totalSessions;
     
     if (progress.lastQuizScore !== null) {
@@ -101,6 +101,13 @@ function loadRecentActivity() {
     if (progress.breathingSessions > 0) {
         activities.push({
             text: `Completed ${progress.breathingSessions} breathing exercise(s) (${progress.breathingMinutes} minutes)`,
+            date: stats.lastLogin
+        });
+    }
+
+    if ((progress.gamesPlayed || 0) > 0) {
+        activities.push({
+            text: `Played ${progress.gamesPlayed} game session(s)`,
             date: stats.lastLogin
         });
     }

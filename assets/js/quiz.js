@@ -96,6 +96,16 @@ class MoodQuiz {
         this.calculateScore();
         this.displayResults();
         this.saveResults();
+        // Record quiz completion in user session (if available)
+        try {
+            if (typeof saveQuizCompletion === 'function') {
+                saveQuizCompletion(this.score, this.questions.length);
+            } else if (window.userSession && typeof window.userSession.addQuizCompletion === 'function') {
+                window.userSession.addQuizCompletion(this.score, this.questions.length);
+            }
+        } catch (e) {
+            console.warn('Failed to save quiz completion:', e);
+        }
     }
 
     calculateScore() {

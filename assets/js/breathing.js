@@ -380,7 +380,7 @@ class BreathingExercise {
         
         // Save session to user progress
         if (window.userSession && window.userSession.currentUser) {
-            const minutesSpent = Math.floor(this.totalSessionTime / 60);
+            const minutesSpent = Math.max(1, Math.floor(this.totalSessionTime / 60));
             window.userSession.addBreathingSession(minutesSpent);
         }
         
@@ -393,5 +393,17 @@ class BreathingExercise {
 
 // Initialize breathing exercise when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new BreathingExercise();
+    window.breathingExerciseInstance = new BreathingExercise();
+});
+
+// Save breathing session if user leaves page
+window.addEventListener('beforeunload', () => {
+    const exercise = window.breathingExerciseInstance;
+    if (exercise && exercise.totalSessionTime > 30 && !exercise.sessionSaved) { // At least 30 seconds
+        const minutesSpent = Math.max(1, Math.floor(exercise.totalSessionTime / 60));
+        if (window.userSession && window.userSession.currentUser) {
+            window.userSession.addBreathingSession(minutesSpent);
+            exercise.sessionSaved = true;
+        }
+    }
 });

@@ -39,6 +39,7 @@ class UserSession {
                 quizCompleted: 0,
                 breathingMinutes: 0,
                 tipsViewed: 0,
+                gamesPlayed: 0,
                 lastQuizScore: null,
                 lastQuizDate: null,
                 breathingSessions: 0,
@@ -145,6 +146,26 @@ class UserSession {
         progress.breathingMinutes = (progress.breathingMinutes || 0) + minutes;
         progress.totalSessionTime = (progress.totalSessionTime || 0) + minutes;
 
+        this.updateProgress(progress);
+        return true;
+    }
+
+    // Add generic game session (counts toward total sessions)
+    addGameSession() {
+        if (!this.currentUser) return false;
+
+        const progress = this.currentUser.progress;
+        progress.gamesPlayed = (progress.gamesPlayed || 0) + 1;
+        this.updateProgress(progress);
+        return true;
+    }
+
+    // Add tips viewed
+    addTipsViewed() {
+        if (!this.currentUser) return false;
+
+        const progress = this.currentUser.progress;
+        progress.tipsViewed = (progress.tipsViewed || 0) + 1;
         this.updateProgress(progress);
         return true;
     }
